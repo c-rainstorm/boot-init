@@ -25,7 +25,6 @@ import java.util.Objects;
 public class JsonUtil {
     private static final String CATEGORY = JsonUtil.class.getSimpleName();
 
-    @Resource
     private static ObjectMapper objectMapper;
 
     static {
