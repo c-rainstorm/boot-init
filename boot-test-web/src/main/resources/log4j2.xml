@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="WARN">
+    <Properties>
+        <!-- 配置日志文件输出目录 -->
+        <Property name="LOG_DIR">/tmp/logs/boot/logs</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <RollingRandomAccessFile name="fileAppender"
+                                 fileName="${LOG_DIR}/skyLog.log"
+                                 filePattern="${LOG_DIR}/$${date:yyyy-MM}/skyLog.%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="%d [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="fileAppender"/>
+        </Root>
+        <logger name="org.springframework" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="fileAppender"/>
+        </logger>
+        <logger name="org.mybatis" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="fileAppender"/>
+        </logger>
+        <logger name="org.apache.ibatis" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="fileAppender"/>
+        </logger>
+    </Loggers>
+</Configuration>
