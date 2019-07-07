@@ -65,3 +65,12 @@ gen
 # 数据库连接配置
 generatorConfig.properties
 application-datasource.properties
+
+
+
+# vs code file
+
+.project
+.settings/
+.classpath
+.factorypath
