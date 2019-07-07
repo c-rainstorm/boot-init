@@ -65,15 +65,15 @@ table.name=user
 
 ## TODO
 
-- [] Redis distributed lock
-  - [] Single node
-  - [] Cluster
-  - [] Sharding
-  - [] Sentinel
-- [] Distributed configuration center
-  - [] Apollo
-  - [] Disconf
-  - [] xxl-conf
+- [ ] Redis distributed lock
+  - [ ] Single node
+  - [ ] Cluster
+  - [ ] Sharding
+  - [ ] Sentinel
+- [ ] Distributed configuration center
+  - [ ] Apollo
+  - [ ] Disconf
+  - [ ] xxl-conf
 
 ## Written at the end
 
