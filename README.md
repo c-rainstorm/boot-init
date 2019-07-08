@@ -22,6 +22,7 @@ Provided features:
   - Dao AOP access time exceeds threshold log
 - Custom Validate annotation
 - Custom property support IDE smart tips and jumps
+- Unite test based on Spring MVC Test Framework
 
 ## Quick Start
 
