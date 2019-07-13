@@ -1,8 +1,12 @@
 package me.rainstorm.boot.config;
 
 import lombok.Data;
+import me.rainstorm.boot.domain.util.log.LogBuilder;
+import me.rainstorm.boot.domain.util.log.LogUtil;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author baochen1.zhang
@@ -12,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = SelfDefineProperties.SELF_DEFINE_GLOBAL_PREFIX)
 @Data
 public class SelfDefineProperties {
+    private static final String CATEGORY = SelfDefineProperties.class.getSimpleName();
     public static final String SELF_DEFINE_GLOBAL_PREFIX = "me.rainstorm.boot";
 
     /**
@@ -27,7 +32,12 @@ public class SelfDefineProperties {
      * DAO 方法调用执行时间默认日志级别为 INFO，若实际执行时间超过该阈值，则切换为 Warn 日志
      * 后续考虑不超过阈值不输出日志
      *
-     * @todo
      */
     private Integer daoAccessTimeWarnThreshold = 200;
+
+    @PostConstruct
+    private void post() {
+        LogUtil.info(LogBuilder.init(CATEGORY, "post")
+                .setMessage(String.format("daoAccessTimeWarnThreshold: %s", daoAccessTimeWarnThreshold)).build());
+    }
 }

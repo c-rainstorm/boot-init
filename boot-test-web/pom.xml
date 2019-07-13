@@ -75,10 +75,18 @@
             <id>qa</id>
             <properties>
                 <deploy.type>qa</deploy.type>
+                <server.port>8080</server.port>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <deploy.type>test</deploy.type>
+                <server.port>8081</server.port>
+            </properties>
         </profile>
     </profiles>
 
