@@ -13,7 +13,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import me.rainstorm.boot.domain.util.log.LogBuilder;
 import me.rainstorm.boot.domain.util.log.LogUtil;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Objects;

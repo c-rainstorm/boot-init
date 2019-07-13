@@ -41,10 +41,6 @@ public enum LogLevel {
         this.intLevel = intLevel;
     }
 
-    public Integer getIntLevel() {
-        return intLevel;
-    }
-
     public static LogLevel getLogLevel(final int intLevel) {
         LogLevel level = LogLevel.INFO;
         for (final LogLevel lvl : LEVELSET) {
@@ -54,5 +50,9 @@ public enum LogLevel {
             level = lvl;
         }
         return level;
+    }
+
+    public Integer getIntLevel() {
+        return intLevel;
     }
 }

@@ -3,7 +3,7 @@ package me.rainstorm.boot.controller.aop;
 import me.rainstorm.boot.config.SelfDefineProperties;
 import me.rainstorm.boot.domain.constant.ResponseCodeEnum;
 import me.rainstorm.boot.domain.exception.CommonBizException;
-import me.rainstorm.boot.domain.response.BaseResponse;
+import me.rainstorm.boot.domain.response.IResponse;
 import me.rainstorm.boot.domain.response.Response;
 import me.rainstorm.boot.domain.util.log.LogBuilder;
 import me.rainstorm.boot.domain.util.log.LogLevel;
@@ -33,7 +33,6 @@ public class ControllerLog {
 
     @Around("execution(public me.rainstorm.boot.domain.response.Response me.rainstorm.boot.controller..*(..))")
     public Object log(ProceedingJoinPoint joinPoint) {
-
         long startTime = System.currentTimeMillis();
         String category = null;
         String logMethodName = null;
@@ -48,7 +47,7 @@ public class ControllerLog {
             result = joinPoint.proceed();
         } catch (Throwable e) {
             t = e;
-            Response response = new BaseResponse();
+            IResponse response = new Response();
             result = response.failure(e);
         } finally {
             LogUtil.log(LogBuilder.init(category, logMethodName)

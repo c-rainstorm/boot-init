@@ -15,8 +15,8 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
  * {@code
  * Usage：
  * <plugin type="me.rainstorm.boot.mybatis.generator.plugin.RenameMapperClassPlugin">
- *      <property name="searchString" value="Mapper$"/>
- *      <property name="replaceString" value="Dao"/>
+ * <property name="searchString" value="Mapper$"/>
+ * <property name="replaceString" value="Dao"/>
  * </plugin>
  * }
  * <p>

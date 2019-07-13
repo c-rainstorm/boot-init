@@ -39,13 +39,12 @@ public enum ResponseCodeEnum {
     BIZ_500_0001("BIZ_500_0001", "用户已存在");
 
 
+    private String code;
+    private String desc;
     ResponseCodeEnum(String code, String desc) {
         this.code = code;
         this.desc = desc;
     }
-
-    private String code;
-    private String desc;
 
     public String getCode() {
         return code;

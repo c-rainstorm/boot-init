@@ -63,6 +63,8 @@ public class DateTimeFormatterUtil {
          */
         YYYYMMDD(DateTimeFormatterUtil.YYYYMMDD, null);
 
+        private String pattern;
+        private DateTimeFormatter formatter;
         DateTimePatternEnum(String pattern, DateTimeFormatter formatter) {
             this.pattern = pattern;
             DateTimeFormatter f = formatter;
@@ -71,9 +73,6 @@ public class DateTimeFormatterUtil {
             }
             this.formatter = f;
         }
-
-        private String pattern;
-        private DateTimeFormatter formatter;
 
         public String getPattern() {
             return pattern;

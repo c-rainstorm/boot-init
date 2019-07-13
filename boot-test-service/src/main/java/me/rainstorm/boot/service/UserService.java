@@ -1,15 +1,19 @@
 package me.rainstorm.boot.service;
 
 import me.rainstorm.boot.domain.entity.User;
-import me.rainstorm.boot.domain.response.Response;
+import me.rainstorm.boot.domain.request.PageRequest;
+
+import java.util.List;
 
 /**
  * @author chen
  */
 public interface UserService {
-    Response signUp(User user);
+    Boolean signUp(User user);
 
-    Response exist(User user);
+    Boolean exist(User user);
 
-    Response select(User user);
+    User select(User user);
+
+    List<User> select(PageRequest pageRequest);
 }

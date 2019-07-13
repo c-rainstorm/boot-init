@@ -15,13 +15,12 @@ public enum GenderEnum {
     FEMALE(0, "女性");
 
 
+    private Integer code;
+    private String desc;
     GenderEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }
-
-    private Integer code;
-    private String desc;
 
     public Integer getCode() {
         return code;

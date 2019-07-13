@@ -66,6 +66,9 @@ table.name=user
 
 ## TODO
 
+- [x] RESTful docs - use io.swagger
+- [ ] HttpUtil
+  - [ ] OkHttp
 - [ ] Redis distributed lock
   - [ ] Single node
   - [ ] Cluster

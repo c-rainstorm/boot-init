@@ -30,7 +30,7 @@ public class JacksonConverter {
 
         // 设置输出时包含属性的风格
         // 只输出非空
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
 
         // 设置输入时忽略在JSON字符串中存在但Java对象实际没有的属性
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

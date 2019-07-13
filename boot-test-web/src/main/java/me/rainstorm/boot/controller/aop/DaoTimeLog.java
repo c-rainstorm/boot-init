@@ -38,11 +38,13 @@ public class DaoTimeLog {
             return joinPoint.proceed();
         } finally {
             stopWatch.stop();
-            LogLevel level = ObjectUtils.defaultIfNull(selfDefineProperties.getDaoAccessTimeWarnThreshold(), 200)
-                    < stopWatch.getTime(TimeUnit.MILLISECONDS) ? LogLevel.WARN : LogLevel.INFO;
-            LogUtil.log(LogBuilder.init(category, logMethodName)
-                    .setLevel(level)
-                    .setStartTime(stopWatch.getStartTime()).build());
+            long warnThreshold = ObjectUtils.defaultIfNull(selfDefineProperties.getDaoAccessTimeWarnThreshold(), 200);
+            long currentSpend = stopWatch.getTime(TimeUnit.MILLISECONDS);
+            if (warnThreshold <= currentSpend) {
+                LogUtil.log(LogBuilder.init(category, logMethodName)
+                        .setLevel(LogLevel.WARN)
+                        .setStartTime(stopWatch.getStartTime()).build());
+            }
         }
     }
 }

@@ -4,10 +4,7 @@ import me.rainstorm.boot.dao.boot.UserDao;
 import me.rainstorm.boot.domain.constant.ResponseCodeEnum;
 import me.rainstorm.boot.domain.entity.User;
 import me.rainstorm.boot.domain.exception.CommonBizException;
-import me.rainstorm.boot.domain.response.Response;
-import me.rainstorm.boot.domain.response.biz.DataResponse;
-import me.rainstorm.boot.domain.response.biz.LoginResponse;
-import me.rainstorm.boot.domain.response.biz.SignUpResponse;
+import me.rainstorm.boot.domain.request.PageRequest;
 import me.rainstorm.boot.domain.util.JsonUtil;
 import me.rainstorm.boot.domain.util.LocalHost;
 import me.rainstorm.boot.domain.util.log.LogBuilder;
@@ -18,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @author baochen1.zhang
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public Response signUp(User user) {
+    public Boolean signUp(User user) {
         final String logMethodName = "signUp";
 
         User query = new User();
@@ -49,29 +49,39 @@ public class UserServiceImpl implements UserService {
                 .setFilter(user.getUsername())
                 .setMessage("准备入库" + JsonUtil.toJsonString(user)).build());
 
-        SignUpResponse response = new SignUpResponse();
-        boolean saved = userDao.insertSelective(user) > 0;
-        response.setDone(saved);
-        return response.success();
+        return userDao.insertSelective(user) > 0;
     }
 
     @Override
-    public Response exist(User user) {
+    public Boolean exist(User user) {
         assert StringUtils.isNotBlank(user.getPassword()) : "登录密码为空";
 
-        LoginResponse response = new LoginResponse();
-        response.setExist(userExist(user));
-        return response.success();
+        return userExist(user);
     }
 
     @Override
-    public Response select(User query) {
-        DataResponse<User> response = new DataResponse<>();
+    public User select(User query) {
+        return userDao.selectOne(query);
+    }
 
-        User user = userDao.selectOne(query);
-        response.setData(user);
+    @Override
+    public List<User> select(PageRequest pageRequest) {
+        List<User> users = new ArrayList<>(pageRequest.getPageSize());
+        for (int i = 0; i < pageRequest.getPageSize(); i++) {
+            User user = new User();
+            user.setUsername(UUID.randomUUID().toString());
+            user.setPassword(UUID.randomUUID().toString());
+            user.setBirthday(LocalDateTime.now());
+            user.setGender(i % 2);
+            user.setCreatedBy(LocalHost.getMachineName());
+            user.setCreatedOn(LocalDateTime.now());
+            user.setUpdatedBy(LocalHost.getMachineName());
+            user.setUpdatedOn(LocalDateTime.now());
+            user.setRemark("");
+            users.add(user);
+        }
 
-        return response.success();
+        return users;
     }
 
     private boolean userExist(User user) {

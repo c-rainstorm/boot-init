@@ -1,69 +1,136 @@
 package me.rainstorm.boot.domain.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import me.rainstorm.boot.domain.constant.ResponseCodeEnum;
+import me.rainstorm.boot.domain.exception.CommonBizException;
+import me.rainstorm.boot.domain.util.DateTimeFormatterUtil;
+import me.rainstorm.boot.domain.util.LocalHost;
+import org.apache.commons.lang3.ObjectUtils;
+
+import java.time.LocalDateTime;
 
 /**
- * 该接口定义了响应成功或失败
- *
- * @author baochen.zhang
+ * @author baochen1.zhang
+ * @date 2019.07.04
  */
-public interface Response {
+@ApiModel("基础响应类")
+@Data
+public class Response<T> implements IResponse, BizStatus {
 
-    /**
-     * 处理成功
-     *
-     * @return 成功响应
-     */
-    Response success();
+    @ApiModelProperty(name = "resp_code", value = "响应码", dataType = "String", example = "0")
+    @JsonProperty("resp_code")
+    private String respCode;
 
-    /**
-     * 业务处理失败响应
-     *
-     * @return 业务失败响应
-     */
-    Response failure();
+    @ApiModelProperty(name = "resp_msg", value = "响应消息", dataType = "String", position = 1, example = "成功")
+    @JsonProperty("resp_msg")
+    private String respMsg;
 
-    /**
-     * 业务失败响应
-     *
-     * @param msg 业务失败消息
-     * @return 业务失败响应
-     */
-    Response failure(String msg);
+    @ApiModelProperty(name = "server_ip", value = "服务器IP", dataType = "String", position = 2, example = "127.0.0.1")
+    @JsonProperty("server_ip")
+    private String serverIp;
 
-    /**
-     * 系统异常响应
-     *
-     * @param errCode 系统异常码
-     * @param msg     系统异常消息
-     * @return 系统异常响应
-     */
-    Response failure(String errCode, String msg);
+    @ApiModelProperty(name = "server_time", value = "服务器响应时间", dataType = "LocalDateTime", position = 3, example = "2019-07-10 23:22:00")
+    @JsonFormat(pattern = DateTimeFormatterUtil.YYYY_MM_DD_HH_MM_SS)
+    @JsonProperty("server_time")
+    private LocalDateTime serverTime;
 
-    /**
-     * 系统异常响应
-     *
-     * @param responseCode 系统异常响应码
-     * @return 系统异常响应
-     */
-    Response failure(ResponseCodeEnum responseCode);
+    @ApiModelProperty(name = "data", value = "具体的业务响应", position = 4)
+    @JsonProperty("data")
+    private T data;
 
-    /**
-     * 系统异常响应
-     *
-     * @param responseCode 系统异常响应码
-     * @param msg          系统异常消息
-     * @return 系统异常响应
-     */
-    Response failure(ResponseCodeEnum responseCode, String msg);
+    public Response() {
+        this(ResponseCodeEnum.INTERVAL_SERVER_ERROR);
+    }
 
-    /**
-     * 可能为业务异常，可能为系统异常
-     *
-     * @param t 如果是 {@link me.rainstorm.boot.domain.exception.CommonBizException CommonBizException} 则为业务异常；
-     *          其他异常为系统异常
-     * @return 异常响应
-     * @see me.rainstorm.boot.domain.exception.CommonBizException
-     */
-    Response failure(Throwable t);
+    public Response(ResponseCodeEnum responseCode) {
+        this(ObjectUtils.defaultIfNull(responseCode, ResponseCodeEnum.INTERVAL_SERVER_ERROR).getCode(),
+                ObjectUtils.defaultIfNull(responseCode, ResponseCodeEnum.INTERVAL_SERVER_ERROR).getDesc());
+    }
+
+
+    public Response(ResponseCodeEnum responseCode, String respMsg) {
+        this(ObjectUtils.defaultIfNull(responseCode, ResponseCodeEnum.INTERVAL_SERVER_ERROR).getCode(), respMsg);
+    }
+
+    public Response(String respCode, String respMsg) {
+        init(respCode, respMsg);
+        this.serverIp = LocalHost.getMachineIp();
+        this.serverTime = LocalDateTime.now();
+    }
+
+    public Response(T data) {
+        this(ResponseCodeEnum.SUCCESS);
+        this.data = data;
+    }
+
+    @Override
+    public IResponse success() {
+        return init(ResponseCodeEnum.SUCCESS);
+    }
+
+    @Override
+    public IResponse failure() {
+        return init(ResponseCodeEnum.INTERVAL_SERVER_ERROR);
+    }
+
+    @Override
+    public IResponse failure(String msg) {
+        return init(ResponseCodeEnum.INTERVAL_SERVER_ERROR.getCode(), msg);
+    }
+
+    @Override
+    public IResponse failure(String errCode, String respMsg) {
+        return init(errCode, respMsg);
+    }
+
+    @Override
+    public IResponse failure(ResponseCodeEnum responseCode) {
+        return init(ObjectUtils.defaultIfNull(responseCode, ResponseCodeEnum.INTERVAL_SERVER_ERROR));
+    }
+
+    @Override
+    public IResponse failure(ResponseCodeEnum responseCode, String msg) {
+        return init(ObjectUtils.defaultIfNull(responseCode, ResponseCodeEnum.INTERVAL_SERVER_ERROR).getCode(), msg);
+    }
+
+    @Override
+    public IResponse failure(Throwable ex) {
+        if (ex == null) {
+            return failure();
+        }
+
+        if (ex instanceof CommonBizException) {
+            return failure(((CommonBizException) ex).getResponseCode(), ex.getMessage());
+        }
+
+        return failure(ex.getMessage());
+    }
+
+    private IResponse init(ResponseCodeEnum responseCode) {
+        return init(responseCode.getCode(), responseCode.getDesc());
+    }
+
+    private IResponse init(String respCode, String respMsg) {
+        configRespCode(ObjectUtils.defaultIfNull(respCode, ResponseCodeEnum.INTERVAL_SERVER_ERROR.getCode()));
+        configRespMsg(respMsg);
+        return this;
+    }
+
+    private void configRespMsg(String desc) {
+        this.respMsg = desc;
+    }
+
+    private void configRespCode(String code) {
+        this.respCode = code;
+    }
+
+    @Override
+    public boolean isSuccess() {
+        return ResponseCodeEnum.SUCCESS.getCode().equals(this.respCode) ||
+                ResponseCodeEnum.ACCEPT.getCode().equals(this.respCode);
+    }
 }
