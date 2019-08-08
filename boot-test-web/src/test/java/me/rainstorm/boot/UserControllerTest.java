@@ -44,7 +44,7 @@ public class UserControllerTest extends BaseController {
         Response<Boolean> response = post("/user/signup", request, new TypeReference<Response<Boolean>>() {
         });
 
-        assert ResponseCodeEnum.BIZ_500_0001.getCode().equals(response.getRespCode());
+        assert ResponseCodeEnum.USER_EXISTS.getCode().equals(response.getRespCode());
     }
 
     @Test

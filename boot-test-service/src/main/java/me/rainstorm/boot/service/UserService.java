@@ -9,7 +9,7 @@ import java.util.List;
  * @author chen
  */
 public interface UserService {
-    Boolean signUp(User user);
+    Boolean signUp(User user) throws Exception;
 
     Boolean exist(User user);
 

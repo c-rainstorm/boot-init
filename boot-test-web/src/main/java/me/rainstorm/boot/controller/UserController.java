@@ -42,7 +42,7 @@ public class UserController {
 
     @ApiOperation(value = "注册")
     @PostMapping("signup")
-    public Response<Boolean> signup(@RequestBody @Valid SignUpRequest signUpRequest, BindingResult bindingResult) {
+    public Response<Boolean> signup(@RequestBody @Valid SignUpRequest signUpRequest, BindingResult bindingResult) throws Exception {
         User userModel = convertToModel(signUpRequest);
 
         userModel.setBirthday(signUpRequest.getBirthday());

@@ -30,6 +30,8 @@
         <common.lang.version>3.9</common.lang.version>
         <io.springfox.version>2.9.2</io.springfox.version>
         <swagger-annotations.version>1.5.22</swagger-annotations.version>
+        <common-util-redis-version>1.0-SNAPSHOT</common-util-redis-version>
+        <redission-spring-boot-starter-version>3.11.1</redission-spring-boot-starter-version>
     </properties>
 
     <dependencies>
@@ -42,6 +44,11 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>${redission-spring-boot-starter-version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

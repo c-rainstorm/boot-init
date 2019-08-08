@@ -10,6 +10,8 @@ import me.rainstorm.boot.domain.util.LocalHost;
 import me.rainstorm.boot.domain.util.log.LogBuilder;
 import me.rainstorm.boot.domain.util.log.LogUtil;
 import me.rainstorm.boot.service.UserService;
+import me.rainstorm.boot.service.lock.LockResult;
+import me.rainstorm.boot.service.lock.RedisService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -27,29 +29,38 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     private static final String CATEGORY = UserServiceImpl.class.getSimpleName();
     @Resource
+    private RedisService redisService;
+    @Resource
     private UserDao userDao;
 
     @Override
-    public Boolean signUp(User user) {
+    public Boolean signUp(User user) throws Exception {
         final String logMethodName = "signUp";
 
-        User query = new User();
-        query.setUsername(user.getUsername());
+        String key = "signup_" + user.getUsername();
+        try (LockResult lockResult = redisService.tryLock(key, 3000L)) {
+            if (lockResult.failure()) {
+                throw new CommonBizException("当前用户名正在注册中", ResponseCodeEnum.CONCURRENT_OPERATE_ERROR);
+            }
 
-        if (userExist(query)) {
-            throw new CommonBizException("用户已存在", ResponseCodeEnum.BIZ_500_0001);
+            User query = new User();
+            query.setUsername(user.getUsername());
+
+            if (userExist(query)) {
+                throw new CommonBizException("用户已存在", ResponseCodeEnum.USER_EXISTS);
+            }
+
+            user.setCreatedBy(LocalHost.getMachineName());
+            user.setCreatedOn(LocalDateTime.now());
+            user.setUpdatedBy(LocalHost.getMachineName());
+            user.setUpdatedOn(LocalDateTime.now());
+
+            LogUtil.info(LogBuilder.init(CATEGORY, logMethodName)
+                    .setFilter(user.getUsername())
+                    .setMessage("准备入库" + JsonUtil.toJsonString(user)).build());
+
+            return userDao.insertSelective(user) > 0;
         }
-
-        user.setCreatedBy(LocalHost.getMachineName());
-        user.setCreatedOn(LocalDateTime.now());
-        user.setUpdatedBy(LocalHost.getMachineName());
-        user.setUpdatedOn(LocalDateTime.now());
-
-        LogUtil.info(LogBuilder.init(CATEGORY, logMethodName)
-                .setFilter(user.getUsername())
-                .setMessage("准备入库" + JsonUtil.toJsonString(user)).build());
-
-        return userDao.insertSelective(user) > 0;
     }
 
     @Override

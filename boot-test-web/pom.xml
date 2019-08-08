@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>boot-test-web</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -22,6 +22,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>${redission-spring-boot-starter-version}</version>
+        </dependency>
         <dependency>
             <groupId>me.rainstorm</groupId>
             <artifactId>boot-test-service</artifactId>
@@ -50,6 +55,8 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
+                    <include>**/*.yml</include>
+                    <include>**/*.yaml</include>
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
                     <include>static/**</include>
