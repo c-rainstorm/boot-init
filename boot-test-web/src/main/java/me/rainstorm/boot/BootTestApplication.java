@@ -1,7 +1,8 @@
 package me.rainstorm.boot;
 
-import org.springframework.boot.SpringApplication;
+import me.rainstorm.boot.lifecycle.application.ApplicationInit;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
@@ -23,7 +24,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 public class BootTestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BootTestApplication.class, args);
+        new SpringApplicationBuilder(BootTestApplication.class)
+                .initializers(new ApplicationInit())
+                .build().run(args);
     }
 
 }

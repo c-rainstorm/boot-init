@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019.08.03
  */
 @Service
-public class RedisService implements DLock {
+public class RedisDLock implements DLock {
     private static final int LOCK_WAIT_TIME = 3000;
 
     @Resource

@@ -11,7 +11,7 @@ import me.rainstorm.boot.domain.util.log.LogBuilder;
 import me.rainstorm.boot.domain.util.log.LogUtil;
 import me.rainstorm.boot.service.UserService;
 import me.rainstorm.boot.service.lock.LockResult;
-import me.rainstorm.boot.service.lock.RedisService;
+import me.rainstorm.boot.service.lock.RedisDLock;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     private static final String CATEGORY = UserServiceImpl.class.getSimpleName();
     @Resource
-    private RedisService redisService;
+    private RedisDLock redisDLock;
     @Resource
     private UserDao userDao;
 
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         final String logMethodName = "signUp";
 
         String key = "signup_" + user.getUsername();
-        try (LockResult lockResult = redisService.tryLock(key, 3000L)) {
+        try (LockResult lockResult = redisDLock.tryLock(key, 3000L)) {
             if (lockResult.failure()) {
                 throw new CommonBizException("当前用户名正在注册中", ResponseCodeEnum.CONCURRENT_OPERATE_ERROR);
             }
