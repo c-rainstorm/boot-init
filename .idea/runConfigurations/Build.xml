@@ -1,0 +1,20 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Build" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
+    <deployment type="dockerfile">
+      <settings>
+        <option name="buildCliOptions" value="" />
+        <option name="buildOnly" value="true" />
+        <option name="command" value="" />
+        <option name="containerName" value="boot-test" />
+        <option name="entrypoint" value="" />
+        <option name="imageTag" value="registry.cn-beijing.aliyuncs.com/rainstorm/boot:latest" />
+        <option name="publishAllPorts" value="true" />
+        <option name="commandLineOptions" value="" />
+        <option name="sourceFilePath" value="Dockerfile" />
+      </settings>
+    </deployment>
+    <method v="2">
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="clean package -Pqa -DskipTests" />
+    </method>
+  </configuration>
+</component>

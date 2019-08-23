@@ -1,4 +1,4 @@
-clusterServersConfig:
+sentinelServersConfig:
     idleConnectionTimeout: 10000
     pingTimeout: 1000
     connectTimeout: 10000
@@ -18,14 +18,12 @@ clusterServersConfig:
     masterConnectionMinimumIdleSize: 32
     masterConnectionPoolSize: 64
     readMode: "SLAVE"
-    nodeAddresses:
-        - "redis://localhost:30001"
-        - "redis://localhost:30002"
-        - "redis://localhost:30003"
-        - "redis://localhost:30004"
-        - "redis://localhost:30005"
-        - "redis://localhost:30006"
-    scanInterval: 1000
+    sentinelAddresses:
+        - "redis://172.18.1.2:5000"
+        - "redis://172.18.1.2:5001"
+        - "redis://172.18.1.2:5002"
+    masterName: "sentinel7000"
+    database: 0
 threads: 0
 nettyThreads: 0
 codec: !<org.redisson.codec.JsonJacksonCodec> {}

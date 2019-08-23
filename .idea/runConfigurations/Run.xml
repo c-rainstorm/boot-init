@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run" type="docker-deploy" factoryName="docker-image" server-name="Docker">
+    <deployment type="docker-image">
+      <settings>
+        <option name="command" value="" />
+        <option name="containerName" value="boot-test" />
+        <option name="entrypoint" value="" />
+        <option name="imageTag" value="registry.cn-beijing.aliyuncs.com/rainstorm/boot:latest" />
+        <option name="publishAllPorts" value="true" />
+        <option name="commandLineOptions" value="--network docker-common-service" />
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>
