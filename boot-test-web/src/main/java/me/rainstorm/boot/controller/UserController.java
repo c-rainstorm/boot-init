@@ -70,9 +70,7 @@ public class UserController {
             return new Response<>(ResponseCodeEnum.BAD_REQUEST, "用户名不能为空");
         }
 
-        User user = new User();
-        user.setUsername(username);
-        User query = userService.select(user);
+        User query = userService.get(username);
 
         return new Response<>(query);
     }

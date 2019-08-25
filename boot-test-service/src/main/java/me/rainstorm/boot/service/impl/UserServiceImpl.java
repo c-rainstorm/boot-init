@@ -10,11 +10,14 @@ import me.rainstorm.boot.domain.util.LocalHost;
 import me.rainstorm.boot.domain.util.log.LogBuilder;
 import me.rainstorm.boot.domain.util.log.LogUtil;
 import me.rainstorm.boot.service.UserService;
+import me.rainstorm.boot.service.cache.BaseCacheService;
 import me.rainstorm.boot.service.lock.LockResult;
 import me.rainstorm.boot.service.lock.RedisDLock;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,12 +29,35 @@ import java.util.UUID;
  * @date 2019.07.05
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseCacheService<String, User> implements UserService {
     private static final String CATEGORY = UserServiceImpl.class.getSimpleName();
+    private static final String CACHE_NAME = "UserCache";
+
     @Resource
     private RedisDLock redisDLock;
     @Resource
     private UserDao userDao;
+
+    @PostConstruct
+    public void init() {
+        init(User::getUsername);
+    }
+
+    @Override
+    protected String getCacheName() {
+        return CACHE_NAME;
+    }
+
+    @Override
+    protected List<User> initList() {
+        return userDao.selectAll();
+    }
+
+    @Cacheable(value = CACHE_NAME, key = "#username")
+    @Override
+    public User get(String username) {
+        return userDao.selectByUsername(username);
+    }
 
     @Override
     public Boolean signUp(User user) throws Exception {

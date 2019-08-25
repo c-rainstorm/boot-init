@@ -24,6 +24,15 @@
 
     <dependencies>
         <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
+        <dependency>
             <groupId>me.rainstorm</groupId>
             <artifactId>boot-test-dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>

@@ -2,6 +2,8 @@ package me.rainstorm.boot.dao.boot;
 
 import me.rainstorm.boot.domain.entity.User;
 
+import java.util.List;
+
 public interface UserDao {
     int deleteByPrimaryKey(Long id);
 
@@ -18,4 +20,9 @@ public interface UserDao {
     int find(User user);
 
     User selectOne(User query);
+
+    User selectByUsername(String username);
+
+    List<User> selectAll();
+
 }

@@ -191,4 +191,19 @@
         </where>
         limit 1;
     </select>
+
+    <select id="selectByUsername" parameterType="me.rainstorm.boot.domain.entity.User" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where username = #{username}
+        limit 1;
+    </select>
+
+    <select id="selectAll" parameterType="me.rainstorm.boot.domain.entity.User" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        limit 100;
+    </select>
 </mapper>

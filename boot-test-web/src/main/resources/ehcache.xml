@@ -1,0 +1,31 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.ehcache.org/v3"
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
+    <cache-template name="default">
+        <expiry>
+            <class>me.rainstorm.boot.service.cache.expire.RandomExpiry</class>
+        </expiry>
+
+        <listeners>
+            <listener>
+                <class>me.rainstorm.boot.service.cache.CacheEventLogger</class>
+                <event-firing-mode>ASYNCHRONOUS</event-firing-mode>
+                <event-ordering-mode>UNORDERED</event-ordering-mode>
+                <events-to-fire-on>CREATED</events-to-fire-on>
+                <events-to-fire-on>EXPIRED</events-to-fire-on>
+            </listener>
+        </listeners>
+
+        <resources>
+            <heap>200</heap>
+        </resources>
+    </cache-template>
+
+    <cache alias="UserCache" uses-template="default">
+        <key-type>java.lang.String</key-type>
+        <value-type>me.rainstorm.boot.domain.entity.User</value-type>
+        <expiry>
+            <class>me.rainstorm.boot.service.cache.expire.UserCacheExpiry</class>
+        </expiry>
+    </cache>
+</config>

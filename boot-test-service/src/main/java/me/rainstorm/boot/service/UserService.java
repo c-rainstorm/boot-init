@@ -16,4 +16,6 @@ public interface UserService {
     User select(User user);
 
     List<User> select(PageRequest pageRequest);
+
+    User get(String username);
 }

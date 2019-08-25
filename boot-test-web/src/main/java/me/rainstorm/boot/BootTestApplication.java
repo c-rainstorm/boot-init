@@ -4,6 +4,7 @@ import me.rainstorm.boot.lifecycle.application.ApplicationInit;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * {@link EnableConfigurationProperties} 的作用是为自定义的配置提供智能提示 {@link org.springframework.boot.context.properties.ConfigurationProperties @ConfigurationProperties}
@@ -19,6 +20,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @see me.rainstorm.boot.dao.config.BootDataSourceConfig - 自动提示 me.rainstorm.boot.datasource 前缀配置
  * @see org.springframework.boot.context.properties.ConfigurationProperties
  */
+@EnableCaching
 @SpringBootApplication
 @EnableConfigurationProperties
 public class BootTestApplication {
