@@ -1,6 +1,6 @@
 package me.rainstorm.boot.domain.util.log;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotNull;
 
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
  * @author baochen1.zhang
  * @date 2019.07.05
  */
-@Log4j2(topic = "com.rainstorm.boot.skyLog")
+@Slf4j(topic = "com.rainstorm.boot.skyLog")
 public class LogUtil {
     public static void log(@NotNull LogEntity logEntity) {
         LogLevel level = logEntity.getLevel();
