@@ -10,6 +10,7 @@ import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 @Api("MQ 测试Controller")
 @RestController
 @RequestMapping("mq")
+@Profile("mq")
 public class MQController {
     @Resource
     private DefaultMQProducer mqProducer;

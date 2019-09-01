@@ -10,11 +10,13 @@ import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
  * @author baochen1.zhang
  * @date 2019.08.27
  */
+@Profile("mq")
 @Configuration
 public class MQConfig {
     private static final String CATEGORY = MQConfig.class.getSimpleName();
