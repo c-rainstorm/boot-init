@@ -1,5 +1,6 @@
 package me.rainstorm.boot;
 
+import me.rainstorm.boot.lifecycle.application.ApplicationEventProcessor;
 import me.rainstorm.boot.lifecycle.application.ApplicationInit;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -28,6 +29,7 @@ public class BootTestApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(BootTestApplication.class)
                 .initializers(new ApplicationInit())
+                .listeners(new ApplicationEventProcessor())
                 .build().run(args);
     }
 

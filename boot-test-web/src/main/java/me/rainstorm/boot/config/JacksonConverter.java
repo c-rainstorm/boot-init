@@ -9,9 +9,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import me.rainstorm.boot.domain.util.DateTimeFormatterUtil;
+import me.rainstorm.boot.lifecycle.application.JacksonConverterConfigDoneEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 /**
@@ -23,6 +26,9 @@ import java.time.LocalDateTime;
  */
 @Configuration
 public class JacksonConverter {
+
+    @Resource
+    private ApplicationEventPublisher eventPublisher;
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -51,6 +57,9 @@ public class JacksonConverter {
 
         objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
         objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+
+        eventPublisher.publishEvent(new JacksonConverterConfigDoneEvent(objectMapper));
+
         return objectMapper;
     }
 }
