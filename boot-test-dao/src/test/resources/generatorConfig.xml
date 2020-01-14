@@ -21,10 +21,10 @@
             <!-- disable annotations -->
             <property name="allArgsConstructor" value="false"/>
         </plugin>
-        <plugin type="me.rainstorm.boot.mybatis.generator.plugin.RenameMapperClassPlugin">
-            <property name="searchString" value="Mapper$"/>
-            <property name="replaceString" value="Dao"/>
-        </plugin>
+        <!--        <plugin type="me.rainstorm.boot.mybatis.generator.plugin.RenameMapperClassPlugin">-->
+        <!--            <property name="searchString" value="Mapper$"/>-->
+        <!--            <property name="replaceString" value="Dao"/>-->
+        <!--        </plugin>-->
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
@@ -69,8 +69,8 @@
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false">
-            <generatedKey column="id" sqlStatement="mysql"/>
-            <ignoreColumn column="_timestamp"/>
+<!--            <generatedKey column="id" sqlStatement="mysql"/>-->
+            <!--            <ignoreColumn column="_timestamp"/>-->
         </table>
     </context>
 </generatorConfiguration>

@@ -35,6 +35,7 @@
         <ehcache.version>3.8.0</ehcache.version>
         <swagger-bootstrap-ui-version>1.9.5</swagger-bootstrap-ui-version>
         <rocketmq-client-version>4.3.0</rocketmq-client-version>
+        <lombok.version>1.18.10</lombok.version>
     </properties>
 
     <dependencies>
@@ -77,6 +78,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
